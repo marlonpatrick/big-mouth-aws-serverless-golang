@@ -6,6 +6,6 @@ stack_name = "big-mouth"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-16c7en035gs09"
 s3_prefix = "big-mouth"
 region = "us-east-1"
-confirm_changeset = true
+confirm_changeset = false
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
