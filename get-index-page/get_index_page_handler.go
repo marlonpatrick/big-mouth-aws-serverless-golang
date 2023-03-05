@@ -1,48 +1,50 @@
 package main
 
 import (
-	"errors"
-	"fmt"
-	"io"
-	"net/http"
+	_ "embed"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
 var (
-	// DefaultHTTPGetAddress Default Address
-	DefaultHTTPGetAddress = "https://checkip.amazonaws.com"
-
-	// ErrNoIP No IP found in response
-	ErrNoIP = errors.New("No IP in HTTP response")
-
-	// ErrNon200Response non 200 status code in response
-	ErrNon200Response = errors.New("Non 200 Response found")
+	// go:embed resources/index.html
+	IndexPageHtml string
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	resp, err := http.Get(DefaultHTTPGetAddress)
-	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
-	}
 
-	if resp.StatusCode != 200 {
-		return events.APIGatewayProxyResponse{}, ErrNon200Response
-	}
+	if len(IndexPageHtml) == 0 {
+		/*
+			[IMPLEMENTED] https://docs.aws.amazon.com/lambda/latest/dg/golang-exceptions.html
+				For example, API Gateway treats all invocation and function errors as internal errors.
+				If the Lambda API rejects the invocation request, API Gateway returns a 500 error code.
 
-	ip, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
-	}
+				If the function runs but returns an error, or returns a response in the wrong format, API Gateway returns a 502 error code.
 
-	if len(ip) == 0 {
-		return events.APIGatewayProxyResponse{}, ErrNoIP
+				>>> To customize the error response, you must catch errors in your code and format a response in the required format. <<<
+
+			[TO DO] https://docs.aws.amazon.com/apigateway/latest/developerguide/handle-errors-in-lambda-integration.html
+				Handle standard Lambda errors in API Gateway
+					You can return a error and then map that error with a Api Gateway Response
+
+			[TO DO] Implement a kind of global error handler (GEH). The handler returns an error and GEH convert into a api gateway response.
+		*/
+		return events.APIGatewayProxyResponse{
+			Body:       "This page is currently unavailable",
+			StatusCode: 500,
+			Headers: map[string]string{
+				"Content-Type": "text/text; charset=UTF-8",
+			},
+		}, nil
 	}
 
 	return events.APIGatewayProxyResponse{
-		Body:       fmt.Sprintf("Hello, %v", string(ip)),
+		Body:       IndexPageHtml,
 		StatusCode: 200,
+		Headers: map[string]string{
+			"Content-Type": "text/html; charset=UTF-8",
+		},
 	}, nil
 }
 
