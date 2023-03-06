@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	// go:embed resources/index.html
+	//go:embed resources/index.html
 	IndexPageHtml string
 )
 
