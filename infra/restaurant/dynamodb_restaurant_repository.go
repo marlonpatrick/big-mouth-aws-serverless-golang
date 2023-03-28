@@ -13,11 +13,11 @@ type DynamoDBRestaurantRepository struct {
 	dynamoDBClient *dynamodb.Client
 }
 
-func NewDynamoDBRestaurantRepository(dynamoDBClient *dynamodb.Client) DynamoDBRestaurantRepository {
-	return DynamoDBRestaurantRepository{dynamoDBClient}
+func NewDynamoDBRestaurantRepository(dynamoDBClient *dynamodb.Client) *DynamoDBRestaurantRepository {
+	return &DynamoDBRestaurantRepository{dynamoDBClient}
 }
 
-func (dynamoRepo DynamoDBRestaurantRepository) FindAllRestaurants(limit int) ([]map[string]types.AttributeValue, error) {
+func (dynamoRepo *DynamoDBRestaurantRepository) FindAllRestaurants(limit int) ([]map[string]types.AttributeValue, error) {
 
 	response, err := dynamoRepo.dynamoDBClient.Scan(context.TODO(), &dynamodb.ScanInput{
 		TableName: aws.String("big_mouth_restaurants"), // TODO env variable + single table data modeling

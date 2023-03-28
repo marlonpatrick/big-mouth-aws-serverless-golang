@@ -12,7 +12,7 @@ var (
 	IndexPageHtml string
 )
 
-func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func handler(request *events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
 	if len(IndexPageHtml) == 0 {
 		/*

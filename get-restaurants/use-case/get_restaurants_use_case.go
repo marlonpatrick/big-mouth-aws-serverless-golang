@@ -11,11 +11,11 @@ type FindAllRestaurantsUseCase struct {
 	repository restaurant.RestaurantRepository
 }
 
-func NewFindAllRestaurantsUseCase(repository restaurant.RestaurantRepository) FindAllRestaurantsUseCase {
-	return FindAllRestaurantsUseCase{repository}
+func NewFindAllRestaurantsUseCase(repository restaurant.RestaurantRepository) *FindAllRestaurantsUseCase {
+	return &FindAllRestaurantsUseCase{repository}
 }
 
-func (useCase FindAllRestaurantsUseCase) Execute() ([]map[string]types.AttributeValue, error) {
+func (useCase *FindAllRestaurantsUseCase) Execute() ([]map[string]types.AttributeValue, error) {
 
 	items, err := useCase.repository.FindAllRestaurants(10) // TODO 10 => env variable
 

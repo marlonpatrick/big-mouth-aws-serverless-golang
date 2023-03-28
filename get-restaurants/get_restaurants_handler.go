@@ -11,16 +11,16 @@ import (
 )
 
 var (
-	findAllRestaurantsUseCase usecase.FindAllRestaurantsUseCase
+	findAllRestaurantsUseCase *usecase.FindAllRestaurantsUseCase
 )
 
-func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func handler(request *events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
 	items, err := findAllRestaurantsUseCase.Execute()
 
 	if err != nil {
 		return events.APIGatewayProxyResponse{
-			Body:       "findRestaurants deu erro",
+			Body:       "An error occurred while querying the restaurants.",
 			StatusCode: 500,
 			Headers: map[string]string{
 				"Content-Type": "text/text; charset=UTF-8",
@@ -32,7 +32,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	if err != nil {
 		return events.APIGatewayProxyResponse{
-			Body:       "Marshal deu erro",
+			Body:       "An error occurred while marshal the restaurants.",
 			StatusCode: 500,
 			Headers: map[string]string{
 				"Content-Type": "text/text; charset=UTF-8",
