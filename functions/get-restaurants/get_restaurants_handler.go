@@ -5,13 +5,13 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	usecase "github.com/marlonpatrick/big-mouth-aws-serverless-golang/get-restaurants/use-case"
+	restaurant_usecases "github.com/marlonpatrick/big-mouth-aws-serverless-golang/application/restaurant"
 	dynamodb_infra "github.com/marlonpatrick/big-mouth-aws-serverless-golang/infra/dynamodb"
 	restaurant_infra "github.com/marlonpatrick/big-mouth-aws-serverless-golang/infra/restaurant"
 )
 
 var (
-	findAllRestaurantsUseCase *usecase.FindAllRestaurantsUseCase
+	findAllRestaurantsUseCase *restaurant_usecases.FindRestaurantsUseCase
 )
 
 func handler(request *events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -58,7 +58,7 @@ func init() {
 
 	dynamoDBRestaurantRepository := restaurant_infra.NewDynamoDBRestaurantRepository(dynamoDBClient)
 
-	findAllRestaurantsUseCase = usecase.NewFindAllRestaurantsUseCase(dynamoDBRestaurantRepository)
+	findAllRestaurantsUseCase = restaurant_usecases.NewFindRestaurantsUseCase(dynamoDBRestaurantRepository)
 }
 
 func main() {

@@ -1,4 +1,4 @@
-package usecase
+package restaurant
 
 import (
 	"log"
@@ -7,15 +7,15 @@ import (
 	"github.com/marlonpatrick/big-mouth-aws-serverless-golang/domain/restaurant"
 )
 
-type FindAllRestaurantsUseCase struct {
+type FindRestaurantsUseCase struct {
 	repository restaurant.RestaurantRepository
 }
 
-func NewFindAllRestaurantsUseCase(repository restaurant.RestaurantRepository) *FindAllRestaurantsUseCase {
-	return &FindAllRestaurantsUseCase{repository}
+func NewFindRestaurantsUseCase(repository restaurant.RestaurantRepository) *FindRestaurantsUseCase {
+	return &FindRestaurantsUseCase{repository}
 }
 
-func (useCase *FindAllRestaurantsUseCase) Execute() ([]map[string]types.AttributeValue, error) {
+func (useCase *FindRestaurantsUseCase) Execute() ([]map[string]types.AttributeValue, error) {
 
 	items, err := useCase.repository.FindAllRestaurants(10) // TODO 10 => env variable
 
