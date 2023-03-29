@@ -1,17 +1,17 @@
-package restaurant
+package application
 
 import (
 	"log"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/marlonpatrick/big-mouth-aws-serverless-golang/domain/restaurant"
+	restaurant_domain "github.com/marlonpatrick/big-mouth-aws-serverless-golang/restaurant/domain"
 )
 
 type FindRestaurantsUseCase struct {
-	repository restaurant.RestaurantRepository
+	repository restaurant_domain.RestaurantRepository
 }
 
-func NewFindRestaurantsUseCase(repository restaurant.RestaurantRepository) *FindRestaurantsUseCase {
+func NewFindRestaurantsUseCase(repository restaurant_domain.RestaurantRepository) *FindRestaurantsUseCase {
 	return &FindRestaurantsUseCase{repository}
 }
 

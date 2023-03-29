@@ -7,14 +7,22 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	dynamodb_infra "github.com/marlonpatrick/big-mouth-aws-serverless-golang/common/infra/dynamodb"
 )
 
 type DynamoDBRestaurantRepository struct {
 	dynamoDBClient *dynamodb.Client
 }
 
-func NewDynamoDBRestaurantRepository(dynamoDBClient *dynamodb.Client) *DynamoDBRestaurantRepository {
-	return &DynamoDBRestaurantRepository{dynamoDBClient}
+func NewDynamoDBRestaurantRepository() (*DynamoDBRestaurantRepository, error) {
+
+	dynamoDBClient, err := dynamodb_infra.NewDynamoDBClient()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &DynamoDBRestaurantRepository{dynamoDBClient}, nil
 }
 
 func (dynamoRepo *DynamoDBRestaurantRepository) FindAllRestaurants(limit int) ([]map[string]types.AttributeValue, error) {
